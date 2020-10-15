@@ -16,9 +16,7 @@ var restify = require('restify')
     , server = restify.createServer({ name: SERVER_NAME })
 
 server.listen(PORT, HOST, function () {
-    console.log('Server %s listening at %s', server.name, server.url)
-    console.log(' /products')
-
+    console.log('Server %s listening at %s', server.name, server.url, '/products')
 })
 
 server
@@ -32,4 +30,24 @@ server.get('/products', function (req, res, next) {
     })
 })
 
-
+/* To add a product */
+server.post('/products', function (req, res, next) {
+    if (req.params.name === undefined ) {
+      return next(new restify.InvalidArgumentError('name must be supplied'))
+    }
+    if (req.params.model === undefined ) {
+      return next(new restify.InvalidArgumentError('model must be supplied'))
+    }
+    if (req.params.price === undefined ) {
+        return next(new restify.InvalidArgumentError('price must be supplied'))
+      }
+    var newProduct = {
+          name: req.params.name, 
+          model: req.params.model,
+          price: req.params.price
+      }
+      productData.create(newProduct, function (error, product) {
+      if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
+      res.send(201, product)
+    })
+  })

@@ -4,7 +4,8 @@
   "description": "Assignment1 - REST API",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -22,7 +23,7 @@
   },
   "homepage": "https://github.com/Manoj-Manikantan/MAPD713_Assign1#readme",
   "dependencies": {
-    "restify": "^8.5.1",
-    "save": "^2.4.0"
+    "restify": "4.1.1",
+    "save": "2.3.0"
   }
 }
