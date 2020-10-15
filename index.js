@@ -9,7 +9,8 @@
 var SERVER_NAME = 'product-api'
 var PORT = 3009;
 var HOST = '127.0.0.1';
-
+var getRequestCounter = 0;
+var postRequestCounter = 0;
 
 var restify = require('restify')
     , productData = require('save')('products')
@@ -22,6 +23,7 @@ server.listen(PORT, HOST, function () {
     console.log("GET method to display all products")
     console.log("POST method to add a new product information")
     console.log("DELETE method to delete all products")
+    console.log("==================================")
 })
 
 server
@@ -29,16 +31,21 @@ server
     .use(restify.bodyParser())
 /* To get all products */
 server.get('/products', function (req, res, next) {
-    console.log("products GET: received request");
+    getRequestCounter++;
+    console.log("products GET: received request")
+    console.log("Processed Request Count--> Get:" + getRequestCounter + ", Post:"+ postRequestCounter)
     productData.find({}, function (error, products) {
         res.send(products)
-        console.log("products GET: sending response");
+        console.log("products GET: sending response")
+        console.log("==================================")
     })
 })
 
 /* To add a product information */
 server.post('/products', function (req, res, next) {
-    console.log("products POST: received request");
+    postRequestCounter++;
+    console.log("products POST: received request")
+    console.log("Processed Request Count--> Get:" + getRequestCounter + ", Post:"+ postRequestCounter)
     if (req.params.name === undefined) {
         return next(new restify.InvalidArgumentError('name must be supplied'))
     }
@@ -56,16 +63,18 @@ server.post('/products', function (req, res, next) {
     productData.create(newProduct, function (error, product) {
         if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
         res.send(201, product)
-        console.log("products POST: sending response");
+        console.log("products POST: sending response")
+        console.log("==================================")
     })
 })
 
 /* To delete all products */
 server.del('/products', function (req, res, next) {
-    console.log("products DELETE: received request");
+    console.log("products DELETE: received request")
     productData.deleteMany({}, function (error, product) {
         if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
         res.send()
-        console.log("products DELETE: sending response");
+        console.log("products DELETE: sending response")
+        console.log("==================================")
     })
 })
