@@ -17,6 +17,7 @@ var restify = require('restify')
     , server = restify.createServer({ name: SERVER_NAME })
 
 server.listen(PORT, HOST, function () {
+    require('log-timestamp');
     console.log('Server %s listening at %s', server.name, server.url, '/products')
     console.log("Endpoints:")
     console.log("http://127.0.0.1:3009/products method: GET, POST, DELETE")

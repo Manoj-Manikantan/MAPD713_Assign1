@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/Manoj-Manikantan/MAPD713_Assign1#readme",
   "dependencies": {
+    "log-timestamp": "0.3.0",
     "restify": "4.1.1",
     "save": "2.3.0"
   }
