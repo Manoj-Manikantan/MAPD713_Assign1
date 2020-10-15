@@ -23,7 +23,7 @@ server
     .use(restify.fullResponse())
     .use(restify.bodyParser())
 
-/* To get all products */    
+/* To get all products */
 server.get('/products', function (req, res, next) {
     productData.find({}, function (error, products) {
         res.send(products)
@@ -32,22 +32,30 @@ server.get('/products', function (req, res, next) {
 
 /* To add a product */
 server.post('/products', function (req, res, next) {
-    if (req.params.name === undefined ) {
-      return next(new restify.InvalidArgumentError('name must be supplied'))
+    if (req.params.name === undefined) {
+        return next(new restify.InvalidArgumentError('name must be supplied'))
     }
-    if (req.params.model === undefined ) {
-      return next(new restify.InvalidArgumentError('model must be supplied'))
+    if (req.params.model === undefined) {
+        return next(new restify.InvalidArgumentError('model must be supplied'))
     }
-    if (req.params.price === undefined ) {
+    if (req.params.price === undefined) {
         return next(new restify.InvalidArgumentError('price must be supplied'))
-      }
+    }
     var newProduct = {
-          name: req.params.name, 
-          model: req.params.model,
-          price: req.params.price
-      }
-      productData.create(newProduct, function (error, product) {
-      if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
-      res.send(201, product)
+        name: req.params.name,
+        model: req.params.model,
+        price: req.params.price
+    }
+    productData.create(newProduct, function (error, product) {
+        if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
+        res.send(201, product)
     })
-  })
+})
+
+/* To delete all products */
+server.del('/products', function (req, res, next) {
+    productData.deleteMany({}, function (error, product) {
+        if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
+        res.send()
+    })
+})
